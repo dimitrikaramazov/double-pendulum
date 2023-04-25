@@ -44,7 +44,7 @@ def Eu_cent(F,y0,Dt,N, t0 = 0): #Centered Euler, same arguments as Eu_ap
             t.append(t[i-1]+Dt)
             y_inter = y[i-1] + F(y[i-1],t[i-1])*Dt
             y_i = y[i-1] + 1/2*(F(y[i-1],t[i-1])+F(y_inter,t[i]))*Dt
-            
+            y.append(y_i)
     return y
 
 def RK4(F,y0,Dt,N, t0 = 0): #RK4 method, same arguments
@@ -61,6 +61,6 @@ def RK4(F,y0,Dt,N, t0 = 0): #RK4 method, same arguments
             k_2 = F(y[i-1]+k_1/2, t[i-1]+Dt/2)*Dt
             k_3 = F(y[i-1]+k_2/2, t[i-1]+Dt/2)*Dt
             k_4 = F(y[i-1]+k_3, t[i-1]+Dt)*Dt
-            y_i = y[i-1] + 1/6(k_1 + 2*k_2 + 2*k_3 + k_4)
+            y_i = y[i-1] + (k_1 + 2*k_2 + 2*k_3 + k_4) / 6
             y.append(y_i)
     return y

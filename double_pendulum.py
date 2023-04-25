@@ -37,7 +37,7 @@ class DoublePendulum:
         """The solution of the pendulum in phase space"""
         self.sol = np.zeros((self.N, 4))
 
-        self.sol[0, :] = [teta1, teta2, teta1_dot, teta2_dot]
+        self.sol[0, :] = [teta1, teta2, p1, p2]
 
         self.energy = np.zeros((self.N))    
 
@@ -60,7 +60,7 @@ class DoublePendulum:
         return np.array([teta1_dot, teta2_dot, p1, p2])
     
     def hamiltonian(self,X):
-        
+        """ computes the hamiltonian function of the system for a given vector X """
         a = self.a
         b = self.b
         s = 1 + np.square(np.sin(X[0] - X[1]))
@@ -70,7 +70,7 @@ class DoublePendulum:
 
     
     def compute_energy(self):
-
+        """ method that computes the energy of the system at all times"""
         N = self.N
         for i in range(N): 
             self.energy[i] = self.hamiltonian(self.sol[i, :]) 

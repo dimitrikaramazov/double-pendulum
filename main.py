@@ -2,7 +2,7 @@ import numpy as np
 from double_pendulum import DoublePendulum
 import matplotlib.pyplot as plt
 
-dt = 0.01
+dt = 0.001
 def Eu_ap(F,y0,Dt,N) : #Forward Euler, F is the function, y0 the initial condition, Dt the time interval and N is the number of iteration.
     y = []
     for i in range(N):
@@ -29,16 +29,22 @@ def RK4(F,y0,Dt,N): #RK4 method, same arguments
             y.append(y_i)
     return np.array(y)
 
-pen = DoublePendulum(1,2, N = 1000)
+pen = DoublePendulum(4,5, N = 100000)
 
 print(pen.sol[0,:])
 
-pen.sol = RK4(pen.derivatives, pen.sol[0,:], dt, pen.N)
+pen.sol = Eu_ap(pen.derivatives, pen.sol[0,:], dt, pen.N)
 
 pen.compute_energy()
 
 t = []
+e = pen.hamiltonian(pen.sol[0,:])
+E = []
 for i in range(pen.N):
     t.append(dt * i)
+    E.append(e)
+    
+# plt.plot(t, pen.energy, t, E)
+# plt.ylim()
 
-print(pen.energy)
+plt.plot(pen.sol[:,0], pen.sol[:,2])
