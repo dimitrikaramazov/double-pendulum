@@ -35,9 +35,11 @@ class DoublePendulum:
         p2 = self.a *     (teta2_dot + teta1_dot * np.cos(teta1 - teta2))
         
         """The solution of the pendulum in phase space"""
-        self.solution = np.zeros((4,self.N))
+        self.sol = np.zeros((self.N, 4))
 
-        self.solution[:, 0] = [teta1, teta2, teta1_dot, teta2_dot]
+        self.sol[0, :] = [teta1, teta2, teta1_dot, teta2_dot]
+
+        self.energy = np.zeros((self.N))    
 
     def derivatives(self, X):
         """method that computes the derivative of a vector X from the phase space"""
@@ -57,5 +59,19 @@ class DoublePendulum:
 
         return np.array([teta1_dot, teta2_dot, p1, p2])
     
+    def hamiltonian(self,X):
+        
+        a = self.a
+        b = self.b
+        s = 1 + np.square(np.sin(X[0] - X[1]))
+        cos = np.cos(X[0] - X[1])
+        
+        return  (np.square(X[2])/2 + np.square(X[3]) - X[2] * X[3] * cos) / (a * s) - b * (2 * np.cos(X[0]) + np.cos(X[1]))
 
+    
+    def compute_energy(self):
+
+        N = self.N
+        for i in range(N): 
+            self.energy[i] = self.hamiltonian(self.sol[i, :]) 
     
