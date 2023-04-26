@@ -1,66 +1,54 @@
-import matplotlib.pyplot as plt
 import numpy as np
-
-
-def Eu_ap(F,y0,Dt,N, t0 = 0) : #Forward Euler, F is the function, y0 the initial condition, Dt the time interval and N is the number of iteration.
-    t = []
-    y = []
-    for i in range(N):
+class Numerical_Methods :
+    
+    def euler_forward(F,y0,Dt,N) : #Forward Euler, F is the function, y0 the initial condition, Dt the time interval and N is the number of iteration.
+        y = []
+        for i in range(N):
         
-        if i == 0:
-            y.append(y0)
-            t.append(t0)
-        else :
-            t.append(t[i-1]+Dt)
-            y_i = y[i-1] + F(y[i-1],t[i-1])*Dt
-            y.append(y_i)
-    return y 
+            if i == 0:
+                y.append(y0)
+            else :
+                y_i = y[i-1] + F(y[i-1])*Dt
+                y.append(y_i)
+        return np.array(y) 
 
-def Eu_av(F,y0,Dt,N, t0 = 0) : #Backward Euler, same arguments as Eu_ap
-    t = []
-    y = []
-    for i in range(N):
+    def euler_backward(F,y0,Dt,N) : #Backward Euler, same arguments as Eu_ap
+        y = []
+        for i in range(N):
         
-        if i == 0:
-            y.append(y0)
-            t.append(t0)
-        else :
-            t.append(t[i-1]+Dt)
-            y_inter = y[i-1] + F(y[i-1],t[i-1])*Dt
-            y_i = y[i-1] + F(y_inter,t[i])*Dt
-            y.append(y_i)
+            if i == 0:
+                y.append(y0)
+            else :
+                y_inter = y[i-1] + F(y[i-1])*Dt
+                y_i = y[i-1] + F(y_inter)*Dt
+                y.append(y_i)
             
-    return y
+        return np.array(y)
             
-def Eu_cent(F,y0,Dt,N, t0 = 0): #Centered Euler, same arguments as Eu_ap
-    t = []
-    y = []
-    for i in range(N):
+    def euler_centered(F,y0,Dt,N): #Centered Euler, same arguments as Eu_ap
+        y = []
+        for i in range(N):
         
-        if i == 0:
-            y.append(y0)
-            t.append(t0)
-        else :
-            t.append(t[i-1]+Dt)
-            y_inter = y[i-1] + F(y[i-1],t[i-1])*Dt
-            y_i = y[i-1] + 1/2*(F(y[i-1],t[i-1])+F(y_inter,t[i]))*Dt
-            y.append(y_i)
-    return y
+            if i == 0:
+                y.append(y0)
+            else :
+                y_inter = y[i-1] + F(y[i-1])*Dt
+                y_i = y[i-1] + 1/2*(F(y[i-1])+F(y_inter))*Dt
+                y.append(y_i)
+        return np.array(y)
 
-def RK4(F,y0,Dt,N, t0 = 0): #RK4 method, same arguments
-    t = []
-    y = []
-    for i in range(N):
+    def rk4(F,y0,Dt,N): #RK4 method, same arguments
+        y = []
+        for i in range(N):
         
-        if i == 0:
-            y.append(y0)
-            t.append(t0)
-        else :
-            t.append(t[i-1]+Dt)
-            k_1 = F(y[i-1],t[i-1])*Dt
-            k_2 = F(y[i-1]+k_1/2, t[i-1]+Dt/2)*Dt
-            k_3 = F(y[i-1]+k_2/2, t[i-1]+Dt/2)*Dt
-            k_4 = F(y[i-1]+k_3, t[i-1]+Dt)*Dt
-            y_i = y[i-1] + (k_1 + 2*k_2 + 2*k_3 + k_4) / 6
-            y.append(y_i)
-    return y
+            if i == 0:
+                y.append(y0)
+            else :
+                k_1 = F(y[i-1])*Dt
+                k_2 = F(y[i-1]+k_1/2)*Dt
+                k_3 = F(y[i-1]+k_2/2)*Dt
+                k_4 = F(y[i-1]+k_3)*Dt
+                y_i = y[i-1] + (k_1 + 2*k_2 + 2*k_3 + k_4) / 6
+                y.append(y_i)
+        return np.array(y)
+
