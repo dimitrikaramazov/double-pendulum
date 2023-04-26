@@ -25,16 +25,17 @@ class DoublePendulum:
         self.m = m
         self.l = l
         self.N = N
-        """2 constats that apear in the equations of motion"""
+        
+        #2 constats that apear in the equations of motion
         self.a = self.m * np.square(self.l)
         self.b = self.m * self.g * self.l
         
-        """Compute the initial canonical momenta"""
+        # Compute the initial canonical momenta
         
         p1 = self.a * (2 * teta1_dot + teta2_dot * np.cos(teta1 - teta2))
         p2 = self.a *     (teta2_dot + teta1_dot * np.cos(teta1 - teta2))
         
-        """The solution of the pendulum in phase space"""
+        # The solution of the pendulum in phase space
         self.sol = np.zeros((self.N, 4))
 
         self.sol[0, :] = [teta1, teta2, p1, p2]
@@ -74,4 +75,6 @@ class DoublePendulum:
         N = self.N
         for i in range(N): 
             self.energy[i] = self.hamiltonian(self.sol[i, :]) 
+
+    
     
