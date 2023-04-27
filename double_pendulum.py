@@ -35,13 +35,17 @@ class DoublePendulum:
         p1 = self.a * (2 * teta1_dot + teta2_dot * np.cos(teta1 - teta2))
         p2 = self.a *     (teta2_dot + teta1_dot * np.cos(teta1 - teta2))
         
-        # The solution of the pendulum in phase space
+        # the solution of the pendulum in phase space
         self.sol = np.zeros((self.N, 4))
 
         self.sol[0, :] = [teta1, teta2, p1, p2]
 
+        # energy of the system at all times
         self.energy = np.zeros((self.N))    
 
+        # position in the plane for the 2 particles
+        self.r1 = np.zeros((self.N, 2))
+        self.r2 = np.zeros((self.N, 2))
     def derivatives(self, X):
         """method that computes the derivative of a vector X from the phase space"""
         
@@ -75,6 +79,18 @@ class DoublePendulum:
         N = self.N
         for i in range(N): 
             self.energy[i] = self.hamiltonian(self.sol[i, :]) 
+    
+    def compute_r1(self):
+        """computes the position in the plane of the first particle"""
+        for i in range(self.N):
+            self.r1[i,0] = self.l * np.sin(self.sol[i,0])
+            self.r1[i,1] = -1 * self.l * np.cos(self.sol[i,0])
+    
+    def compute_r2(self):
+        """computes the position in the plane of the second particle"""
+        for i in range(self.N):
+            self.r2[i,0] = self.l * (np.sin(self.sol[i,0]) + np.sin(self.sol[i,1]))
+            self.r2[i,1] = -1 * self.l * (np.cos(self.sol[i,0]) + np.cos(self.sol[i,1]) )
 
     
     
