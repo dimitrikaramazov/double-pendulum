@@ -59,10 +59,10 @@ class DoublePendulum:
         teta1_dot = (X[2] - X[3] * cos) / (a * s)
         teta2_dot = (-X[2] * cos + 2 * X[3]) / (a * s)
 
-        p1 =  sin2 * (np.square(X[2])/2 + np.square(X[3]) - X[2] * X[3] * cos) / (a * np.square(s)) - X[2] * X[3] * sin / (a * s) - 2 * b * np.sin(X[0])
-        p2 = -sin2 * (np.square(X[2])/2 + np.square(X[3]) - X[2] * X[3] * cos) / (a * np.square(s)) + X[2] * X[3] * sin / (a * s) -     b * np.sin(X[1])
+        p1_dot =  sin2 * (np.square(X[2])/2 + np.square(X[3]) - X[2] * X[3] * cos) / (a * np.square(s)) - X[2] * X[3] * sin / (a * s) - 2 * b * np.sin(X[0])
+        p2_dot = -sin2 * (np.square(X[2])/2 + np.square(X[3]) - X[2] * X[3] * cos) / (a * np.square(s)) + X[2] * X[3] * sin / (a * s) -     b * np.sin(X[1])
 
-        return np.array([teta1_dot, teta2_dot, p1, p2])
+        return np.array([teta1_dot, teta2_dot, p1_dot, p2_dot])
     
     def hamiltonian(self,X):
         """ computes the hamiltonian function of the system for a given vector X """
@@ -91,6 +91,21 @@ class DoublePendulum:
         for i in range(self.N):
             self.r2[i,0] = self.l * (np.sin(self.sol[i,0]) + np.sin(self.sol[i,1]))
             self.r2[i,1] = -1 * self.l * (np.cos(self.sol[i,0]) + np.cos(self.sol[i,1]) )
+
+    def compute_phase_space_difference(pen1, pen2):
+        N = pen1.N
+        delta_x = np.zeros((N, 4))
+        
+        d = pen1.sol[:,0] - pen2.sol[:,0]
+        delta_x[:,0] = d - np.around(d/ (2 * np.pi), 0) * 2 * np.pi
+        
+        d = pen1.sol[:,1] - pen2.sol[:,1]
+        delta_x[:,1] = d - np.around(d/ (2 * np.pi), 0) * 2 * np.pi
+        
+        delta_x[:,2] = pen1.sol[:,2] - pen2.sol[:,2]
+        delta_x[:,3] = pen1.sol[:,3] - pen2.sol[:,3]
+        return delta_x
+
 
     
     
