@@ -51,4 +51,20 @@ class Numerical_Methods :
                 y_i = y[i-1] + (k_1 + 2*k_2 + 2*k_3 + k_4) / 6
                 y.append(y_i)
         return np.array(y)
+    
+    def rk4_lyapunov(J,y,dy0,Dt,N):
+        """to be tested not sure yet"""
+        dy = []
+        for i in range(N):
+        
+            if i == 0:
+                dy.append(dy0)
+            else :
+                k_1 = J(y[i-1]).dot(dy[i-1])*Dt
+                k_2 = J(y[i-1]).dot(dy[i-1] + k_1/2)*Dt
+                k_3 = J(y[i-1]).dot(dy[i-1] + k_2/2)*Dt
+                k_4 = J(y[i]).dot(dy[i-1] + k_3)*Dt
+                dy_i = dy[i-1] + (k_1 + 2*k_2 + 2*k_3 + k_4) / 6
+                dy.append(dy_i)
+        return np.array(dy)
 

@@ -93,6 +93,7 @@ class DoublePendulum:
             self.r2[i,1] = -1 * self.l * (np.cos(self.sol[i,0]) + np.cos(self.sol[i,1]) )
 
     def compute_phase_space_difference(pen1, pen2):
+        """probably we don't need this"""
         N = pen1.N
         delta_x = np.zeros((N, 4))
         
@@ -105,6 +106,43 @@ class DoublePendulum:
         delta_x[:,2] = pen1.sol[:,2] - pen2.sol[:,2]
         delta_x[:,3] = pen1.sol[:,3] - pen2.sol[:,3]
         return delta_x
+    
+    def jacobian(self,X):
+        """ to be tested"""
+        a = self.a
+        b = self.b 
+
+        J = np.zeros((4,4))
+        # auxiliary functions
+        s = 1 + np.square(np.sin(X[0] - X[1]))
+        cos = np.cos(X[0] - X[1])
+        sin = np.sin(X[0] - X[1])
+        sin2 = np.sin(2 * (X[0] - X[1]))
+        cos2 = np.cos(2 * (X[0] - X[1]))
+
+        J[0,0] = sin * (-2 * X[2] + X[3] * ( 2 + np.square(cos))) / (a * np.square(s))
+        J[0,1] = -1 * J[0,0]
+        J[0,2] = 1/(a * s)
+        J[0,3] = -1 * cos / (a * s)
+
+        J[1,0] = sin * (X[2] * (2 + np.square(cos)) - 4 * X[3] * cos) / (a * np.square(s))
+        J[1,1] = -1 * J[1,0]
+        J[1,2] = J[0,3]
+        J[1,3] = 2 * J[0,2]
+
+        J[2,0] =  -2 * np.square(sin2) * (np.square(X[2])/2 + np.square(X[3]) - X[2] * X[3] * cos) / (a * np.power(s,3)) + (cos2 * (np.square(X[2]) + 2 * np.square(X[3])) - X[2] * X[3] * (3 * cos2 - np.square(sin))) / (a * np.square(s)) -2 * b * np.cos(X[0])
+        J[2,1] = -1 * (J[2,0] + 2 * b * np.cos(X[0]))
+        J[2,2] = sin2 * (X[2] - X[3] * cos) / (a * np.square(s)) - X[3] * sin / ( a * s)
+        J[2,3] = sin2 * (2 * X[3] - X[2] * cos) / (a * np.square(s)) - X[2] * sin / ( a * s)
+
+        J[3,0] = -1 * J[2,0] - 2 * b * np.cos(X[1])
+        J[3,1] = -1 * J[2,1] - b * np.cos(X[2])
+        J[3,2] = -1 * J[2,2]
+        J[3,3] = -1 * J[2,3]
+
+        return J
+
+
 
 
     

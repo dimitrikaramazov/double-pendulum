@@ -4,7 +4,6 @@ from numerical_methods import Numerical_Methods as nm
 from double_pendulum import DoublePendulum
 from matplotlib import animation as anim
 from matplotlib.animation import PillowWriter
-import networkx as nx
 
 dt = 0.01
 
