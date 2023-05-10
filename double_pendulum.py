@@ -130,7 +130,7 @@ class DoublePendulum:
         J[1,2] = J[0,3]
         J[1,3] = 2 * J[0,2]
 
-        J[2,0] =  -2 * np.square(sin2) * (np.square(X[2])/2 + np.square(X[3]) - X[2] * X[3] * cos) / (a * np.power(s,3)) + (cos2 * (np.square(X[2]) + 2 * np.square(X[3])) - X[2] * X[3] * (3 * cos2 - np.square(sin))) / (a * np.square(s)) -2 * b * np.cos(X[0])
+        J[2,0] =  -2 * np.square(sin2) * (np.square(X[2])/2 + np.square(X[3]) - X[2] * X[3] * cos) / (a * np.power(s,3)) + (cos2 * (np.square(X[2]) + 2 * np.square(X[3])) - X[2] * X[3] * (2 * sin2 * sin - cos)) / (a * np.square(s)) -2 * b * np.cos(X[0])
         J[2,1] = -1 * (J[2,0] + 2 * b * np.cos(X[0]))
         J[2,2] = sin2 * (X[2] - X[3] * cos) / (a * np.square(s)) - X[3] * sin / ( a * s)
         J[2,3] = sin2 * (2 * X[3] - X[2] * cos) / (a * np.square(s)) - X[2] * sin / ( a * s)
@@ -141,7 +141,6 @@ class DoublePendulum:
         J[3,3] = -1 * J[2,3]
 
         return J
-
 
 
 
