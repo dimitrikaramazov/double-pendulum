@@ -6,8 +6,8 @@ from matplotlib import animation as anim
 from matplotlib.animation import PillowWriter
 
 dt = 0.01
-
-pen = DoublePendulum(2, 2, N = 1000, l = 0.5)
+theta = np.pi/40
+pen = DoublePendulum(0,theta, N = 6000, l = 0.5)
 # pen2 = DoublePendulum(2.01, 2.01, N = 3000, l = 0.5)
 
 print(pen.hamiltonian(pen.sol[0,:]))
@@ -23,9 +23,10 @@ pen.compute_r2()
  
 # lyapunov tests 
 delta_x = np.zeros_like(pen.sol)
-delta_x[0,:] = [0.01,0.002,0,0]
+delta_x[0,:] = [0.01,0.02,0,0]
 
-delta_x = nm.rk4_lyapunov(pen.jacobian, pen.sol, delta_x[0,:], dt, pen.N)
+delta_x = nm.rk4_lyapunov_normalised(pen.jacobian, pen.sol, delta_x[0,:], dt, pen.N, 50)
+print(delta_x[pen.N-1])
 
 
 # # Create a figure with four subplots
@@ -54,13 +55,13 @@ delta_x = nm.rk4_lyapunov(pen.jacobian, pen.sol, delta_x[0,:], dt, pen.N)
 temp = nm.normalize_vector(delta_x[pen.N - 1,:])
 print(temp)
 # initalising a new pendulum 
-pen = DoublePendulum(1, 0.65, N = 60000, l = 0.5)
+pen = DoublePendulum(0, theta, N = 6000, l = 0.5)
 pen.sol = nm.rk4(pen.derivatives, pen.sol[0,:], dt, pen.N)
 
 delta_x = np.zeros_like(pen.sol)
 delta_x[0,:] = temp
 
-delta_x = nm.rk4_lyapunov_normalised(pen.jacobian, pen.sol, delta_x[0,:], dt, pen.N, 50)
+delta_x = nm.rk4_lyapunov_normalised(pen.jacobian, pen.sol, delta_x[0,:], dt, pen.N,50)
 
 lambda_max = np.zeros(pen.N)
 
