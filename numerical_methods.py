@@ -65,7 +65,7 @@ class Numerical_Methods :
         return np.array(y)
     
     def rk4_lyapunov(J,y,dy0,Dt,N):
-        """to be tested not sure yet"""
+        """RK4 for linear tangeant operator"""
         dy = []
         for i in range(N):
         
@@ -81,7 +81,7 @@ class Numerical_Methods :
         return np.array(dy)
 
     def rk4_lyapunov_normalised(J,y,dy0,Dt,N, normalisation_step):
-        """to be tested not sure yet"""
+        """RK4 for linear tangeant operator but normalized at each normalisation step"""
         dy = []
         n = normalisation_step
         for i in range(N):
