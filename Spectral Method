@@ -72,7 +72,7 @@ u_2 = []
 for i in range(n) :
     u_1.append(c1  / (2 * np.square(np.cosh(math.sqrt(c1) * (x - a1 * L - c1 * t[i]) % L / 2 ))))
 for i in range(n) :
-    u_2.append(c2  / (2 * np.square(np.cosh(math.sqrt(c2) * (x - a2 * L - c2 * t[i] ) / 2  % L ))) )
+    u_2.append(c2  / (2 * np.square(np.cosh(math.sqrt(c2) * (x - a2 * L - c2 * t[i] ) % L / 2   ))) )
     
 #Now, the two solitons individually (numerical) :
     
