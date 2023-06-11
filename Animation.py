@@ -35,8 +35,8 @@ plt.style.use("classic")
 
 def animate(i):
     ax.clear()
-    ax.set_xlim(-2,2)
-    ax.set_ylim(-2,2)
+    ax.set_xlim(-1.5,1.5)
+    ax.set_ylim(-1.5,1.5)
     ax.set_title('movement of each pendulum')
     corde1, = ax.plot([0,x1[0]],[0,y1[0]], color = "black", lw = 1)
     corde2, = ax.plot([x1[0],x2[0]],[y1[0],y2[0]], color = "black", lw = 1)
